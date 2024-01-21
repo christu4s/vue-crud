@@ -1,4 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import HelloUniverse from './HelloUniverse'
 
-createApp(App).mount('#app')
+
+const app = createApp(App);
+app.component('hello-universe',HelloUniverse);
+
+app.mount('#app')

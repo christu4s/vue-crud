@@ -1,41 +1,69 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <ComponentIs hello="I am fine"/>
+    {{message}} 
+  
+    <h1>The 'activated' Lifecycle Hook</h1>
+  <p>In this example for the 'activated' hook we check if the component is cached properly with &lt;KeepAlive&gt;.</p>
+  <p>If the component is cached properly with &lt;KeepAlive&gt; we expect the 'mounted' hook to run once the first time the component is included (must be added to the DOM the first time), and we expect the 'activated' hook to run every time the component is included (also the first time).</p>
+  <button @click="this.activeComp = !this.activeComp">Include component</button>
+  <div>
+    <KeepAlive>
+      <info-box v-if="activeComp"></info-box>
+    </KeepAlive>
+  </div>
   </div>
 </template>
 
 <script>
+import ComponentIs from './built-in-elements/ComponentIs.vue'
+import InfoBox from './component-instance/InfoBox.vue'
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
-  }
+  },
+  components:{
+    ComponentIs,
+    InfoBox
+  },
+  data() {
+    return {
+      color:'red',
+      toggle:true,
+      message: 'HELLO',
+      activeComp: false
+    }
+   
+  }, computed:{
+      status() {
+        if(this.toggle)
+        {
+         
+          return 'active';
+        } else {
+          return 'inactive';
+        }
+        
+      }
+    },
+    methods:{
+      clicked() {
+        if(this.toggle) {
+          this.color = "blue";
+        } else {
+          this.color = "green";
+        }
+        this.toggle = !this.toggle;
+      },
+      receiveEmit(msg) {
+      this.message = msg;
+    }
+    }
+
+    
 }
 </script>
 
